@@ -8,8 +8,8 @@ from passlib.context import CryptContext
 import os
 from dotenv import load_dotenv
 
-from .database import get_db
-from .models import User, Organization
+from database import get_db
+from models import User, Organization
 
 load_dotenv()
 

@@ -9,7 +9,6 @@ import boto3
 from datetime import datetime
 import uuid
 from sqlalchemy.orm import Session
-import json
 import uvicorn
 
 from .database import get_db, engine, Base
@@ -25,6 +24,8 @@ from .security import (
     security_headers
 )
 from .services.document_manager import DocumentManager
+from .middleware import setup_middleware
+from .logging_config import logger
 
 # Load environment variables
 load_dotenv()
@@ -37,6 +38,12 @@ app = FastAPI(
     description="API for document compliance checking and analysis",
     version="1.0.0"
 )
+
+# Set up middleware
+@app.on_event("startup")
+async def startup_event():
+    await setup_middleware(app)
+    logger.info("Application startup complete")
 
 # Models for request/response
 class DocumentUpload(BaseModel):

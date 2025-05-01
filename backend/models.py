@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 import uuid
 
-from .database import Base
+from database import Base
 
 class User(Base):
     __tablename__ = "users"
@@ -46,7 +46,7 @@ class Document(Base):
     user_id = Column(String, ForeignKey("users.id"))
     organization_id = Column(String, ForeignKey("organizations.id"))
     status = Column(String, default="pending")  # pending, processing, completed, failed
-    metadata = Column(JSON, default={})
+    document_metadata = Column(JSON, default={})
     
     user = relationship("User", back_populates="documents")
     organization = relationship("Organization", back_populates="documents")
